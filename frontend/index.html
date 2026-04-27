@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Usuarios com Recompensa</title>
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; connect-src 'self' https: wss:; img-src 'self' data:; style-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self';"
+    />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta name="referrer" content="no-referrer" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script type="module" defer src="./app.js"></script>
+  </head>
+  <body>
+    <main class="container">
+      <header class="card">
+        <h1>Registro de Usuarios com Recompensa</h1>
+        <p class="sub">
+          Frontend para teste do contrato no Remix (sem backend, sem Axios).
+        </p>
+        <div class="status-grid">
+          <p><strong>Conta:</strong> <span id="walletAddress">Nao conectada</span></p>
+          <p><strong>Rede:</strong> <span id="networkInfo">Nao conectada</span></p>
+          <p><strong>Owner do contrato:</strong> <span id="ownerInfo">-</span></p>
+        </div>
+        <button id="connectBtn" type="button">Conectar Carteira</button>
+      </header>
+
+      <section class="card">
+        <h2>Registrar Usuario</h2>
+        <label for="nomeInput">Nome</label>
+        <input id="nomeInput" type="text" maxlength="64" placeholder="Ex.: Paulo Almeida" />
+        <button id="registerBtn" type="button">registrarUsuario(nome)</button>
+      </section>
+
+      <section class="card">
+        <h2>Consultar Usuario</h2>
+        <label for="consultaInput">Carteira</label>
+        <input
+          id="consultaInput"
+          type="text"
+          placeholder="0x..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button id="consultBtn" type="button">consultarUsuario(carteira)</button>
+        <pre id="consultaOutput" class="output">Sem consulta ainda.</pre>
+      </section>
+
+      <section class="card">
+        <h2>Recompensar Usuario (apenas owner)</h2>
+        <label for="rewardInput">Carteira</label>
+        <input
+          id="rewardInput"
+          type="text"
+          placeholder="0x..."
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button id="rewardBtn" type="button">recompensarUsuario(carteira)</button>
+      </section>
+
+      <section class="card">
+        <h2>Log</h2>
+        <pre id="logOutput" class="output">Aplicacao iniciada.</pre>
+        <a id="txLink" href="#" target="_blank" rel="noopener noreferrer" hidden>Ver ultima transacao</a>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+Caso de uso real: Plataforma de cursos online com incentivo por progresso
+
+Uma plataforma de cursos pode registrar alunos por carteira blockchain.
+Quando um aluno conclui um modulo, o administrador chama recompensarUsuario(carteira)
+e credita tokens simulados no saldo do aluno.
+
+Esses tokens podem ser usados para:
+- liberar conteudo premium
+- obter desconto em certificacoes
+- subir de nivel no programa de fidelidade
+
+Vantagens:
+- transparencia: eventos registram quando e quanto foi recompensado
+- rastreabilidade: qualquer pessoa pode auditar o historico on-chain
+- automacao: regras de recompensa executadas pelo contrato sem intermediarios

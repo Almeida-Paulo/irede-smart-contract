@@ -1,0 +1,51 @@
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.kdbx
+*.keystore
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+*.ovpn
+*.mobileconfig
+.aws/
+.azure/
+.config/gcloud/
+secrets/
+**/secrets/
+
+# Dependency and build artifacts
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.vite/
+out/
+
+# Python artifacts
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
