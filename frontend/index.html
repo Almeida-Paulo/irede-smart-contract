@@ -17,7 +17,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script type="module" defer src="./app.js?v=20260427a"></script>
+    <script type="module" defer src="./app.js?v=20260427b"></script>
   </head>
   <body>
     <main class="container">
@@ -27,9 +27,15 @@
           Frontend para teste do contrato RegistroDeUsuariosComRecompensa (0x6216F25f5f2dc7106E6CE8AA82e90B5f59d1bB0c).
         </p>
         <div class="status-grid">
+          <p><strong>Carteira selecionada:</strong> <span id="walletProviderInfo">-</span></p>
           <p><strong>Conta:</strong> <span id="walletAddress">Nao conectada</span></p>
           <p><strong>Rede:</strong> <span id="networkInfo">Nao conectada</span></p>
           <p><strong>Owner do contrato:</strong> <span id="ownerInfo">-</span></p>
+        </div>
+        <label for="walletProviderSelect">Provider de carteira</label>
+        <div class="wallet-actions">
+          <select id="walletProviderSelect" aria-label="Selecionar carteira"></select>
+          <button id="refreshWalletsBtn" type="button" class="secondary">Atualizar Carteiras</button>
         </div>
         <button id="connectBtn" type="button">Conectar Carteira</button>
       </header>

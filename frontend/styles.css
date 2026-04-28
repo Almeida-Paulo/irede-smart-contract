@@ -81,6 +81,21 @@ input:focus {
   border-color: #89b8ec;
 }
 
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  font-size: 0.98rem;
+  background: #fff;
+}
+
+select:focus {
+  outline: 2px solid #a3d0ff;
+  border-color: #89b8ec;
+}
+
 button {
   border: none;
   border-radius: 10px;
@@ -89,6 +104,18 @@ button {
   cursor: pointer;
   color: #fff;
   background: linear-gradient(120deg, var(--accent), var(--accent-2));
+}
+
+.wallet-actions {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+button.secondary {
+  background: #38506e;
 }
 
 button:disabled {
@@ -120,5 +147,9 @@ button:disabled {
 
   .card {
     padding: 13px;
+  }
+
+  .wallet-actions {
+    grid-template-columns: 1fr;
   }
 }
