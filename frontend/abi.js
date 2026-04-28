@@ -1,4 +1,4 @@
-[
+export const contractAbi =[
 	{
 		"inputs": [
 			{
@@ -382,4 +382,4 @@
 		"stateMutability": "view",
 		"type": "function"
 	}
-]
+];
