@@ -125,7 +125,7 @@ contract RegistroDeUsuariosComRecompensa is Ownable, Pausable {
         emit PoolRecompensasAtualizado(valor, poolRecompensas);
     }
 
-    // Evita perda acidental de controles administrativos do contrato.
+    // Evita perda acidental de controles administrativos do contrato (sugestão de seguraança da IA do Remix).
     function renounceOwnership() public override onlyOwner {
         revert("Renuncia de ownership desabilitada");
     }
