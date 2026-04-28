@@ -1,10 +1,20 @@
 # irede-smart-contract
 
-Projeto simples para estudo de Smart Contracts na Ethereum com:
+Projeto educacional para demonstrar fundamentos de Smart Contracts na Ethereum com:
 
 - contrato Solidity `RegistroDeUsuariosComRecompensa`
-- frontend estatico (HTML/CSS/JS) para testar o contrato
-- instrucoes de deploy no Ubuntu a partir do Git
+- frontend estatico (HTML/CSS/JS) para interacao com o contrato
+
+## Objetivo do Projeto
+
+Consolidar conceitos fundamentais:
+
+- estrutura de contratos Solidity
+- funcoes, variaveis e eventos
+- armazenamento on-chain com `mapping` e `struct`
+- simulacao conceitual de token por saldo interno
+- validacoes de seguranca basica (`require`, permissao, pausa)
+- nocao pratica de gas e execucao na EVM
 
 ## Estrutura
 
@@ -18,108 +28,46 @@ Projeto simples para estudo de Smart Contracts na Ethereum com:
 - `ops/nginx/irede-smart-contract.conf`: exemplo de virtual host Nginx
 - `ops/deploy_from_git.sh`: deploy/update rapido via `git pull`
 
-## 1) Deploy do contrato no Remix
+## Contrato Inteligente
 
-1. Abra [https://remix.ethereum.org](https://remix.ethereum.org).
-2. Crie o arquivo `RegistroDeUsuariosComRecompensa.sol` e cole o conteudo de `contract/RegistroDeUsuariosComRecompensa.sol`.
-3. Em `Solidity Compiler`, selecione versao `0.8.24` e compile.
-4. Em `Deploy & Run Transactions`:
-1. para teste rapido, use `Remix VM`;
-2. para testnet real, use `Browser Extension` (MetaMask).
-5. No deploy, passe dois parametros do construtor:
-1. `recompensaPadrao_` (ex.: `100`);
-2. `poolInicial_` (ex.: `100000`).
-6. Copie o endereco do contrato implantado.
-7. No Remix, abra `Compilation Details` e copie a ABI (se mudar o contrato).
+O contrato `RegistroDeUsuariosComRecompensa` permite:
 
-## 2) Configurar o frontend
+- registrar usuario por carteira (`registrarUsuario`)
+- consultar dados do usuario (`consultarUsuario`)
+- enviar recompensa simulada (`recompensarUsuario`)
 
-Edite `frontend/config.js`:
+Eventos principais:
 
-- `chainId`: ID da rede (ex.: Sepolia `11155111`)
-- `chainName`: nome da rede
-- `contractAddress`: endereco do contrato deployado
-- `explorerTxBaseUrl`: base do explorador da rede
+- `UsuarioRegistrado`
+- `RecompensaEnviada`
+- `RecompensaPadraoAtualizada`
+- `PoolRecompensasAtualizado`
 
-A ABI padrao ja esta em `frontend/abi.js`.
+Controles administrativos:
 
-## 3) Subir no GitHub
+- pausar/despausar operacoes
+- ajustar valor de recompensa
+- adicionar saldo ao pool de recompensas
+- bloqueio de renuncia de ownership para evitar perda acidental de controle
 
-No seu repositiorio:
+## Frontend
 
-```bash
-git add .
-git commit -m "feat: contrato + frontend + deploy ubuntu"
-git branch -M main
-git remote add origin https://github.com/Almeida-Paulo/irede-smart-contract.git
-git push -u origin main
-```
+O frontend foi pensado para testes manuais do contrato:
 
-Se o `origin` ja existir:
+- conexao de carteira via `ethers.js`
+- validacao de rede (`chainId`) e endereco de contrato
+- operacoes de registro, consulta e recompensa
+- exibicao de hash e link de transacao no explorador
 
-```bash
-git remote set-url origin https://github.com/Almeida-Paulo/irede-smart-contract.git
-git push -u origin main
-```
+## Seguranca Aplicada
 
-## 4) Publicar no Ubuntu em /var/www
-
-### 4.1 Dependencias
-
-```bash
-sudo apt update
-sudo apt install -y nginx git
-```
-
-### 4.2 Clonar em /var/www
-
-```bash
-cd /var/www
-sudo git clone https://github.com/Almeida-Paulo/irede-smart-contract.git
-sudo chown -R $USER:$USER /var/www/irede-smart-contract
-```
-
-### 4.3 Nginx
-
-Use o arquivo `ops/nginx/irede-smart-contract.conf` como base:
-
-```bash
-sudo cp /var/www/irede-smart-contract/ops/nginx/irede-smart-contract.conf /etc/nginx/sites-available/irede-smart-contract
-sudo ln -s /etc/nginx/sites-available/irede-smart-contract /etc/nginx/sites-enabled/irede-smart-contract
-sudo nginx -t
-sudo systemctl reload nginx
-```
-
-Depois, acesse:
-
-- `http://SEU_IP/` (ou dominio configurado)
-
-## 5) Atualizar site apos novo push
-
-No servidor:
-
-```bash
-cd /var/www/irede-smart-contract
-git pull --ff-only
-sudo systemctl reload nginx
-```
-
-Ou use:
-
-```bash
-sudo bash /var/www/irede-smart-contract/ops/deploy_from_git.sh
-```
-
-## Seguranca aplicada
-
-- contrato com `Ownable` e `Pausable` (OpenZeppelin)
+- OpenZeppelin (`Ownable` e `Pausable`)
 - validacoes com `require`
-- bloqueio de registro duplicado
-- controles administrativos com `onlyOwner`
+- protecao contra registro duplicado
+- funcoes criticas restritas ao `owner`
+- auditoria via eventos on-chain
 - frontend sem Axios
-- frontend valida entradas, carteira e rede antes de enviar transacoes
-- cabecalhos de seguranca no Nginx (CSP, no-sniff, frame deny, etc.)
-- `.gitignore` forte para arquivos sensiveis
+- `.gitignore` para reduzir risco de versionar arquivos sensiveis
 
 ## Observacao importante sobre garantia
 
