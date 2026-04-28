@@ -1,5 +1,5 @@
-import { contractAbi } from "./abi.js";
-import { APP_CONFIG } from "./config.js";
+import { contractAbi } from "./abi.js?v=20260427a";
+import { APP_CONFIG } from "./config.js?v=20260427a";
 
 const $ = (id) => document.getElementById(id);
 
