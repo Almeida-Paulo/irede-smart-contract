@@ -6,8 +6,8 @@ Bibliotecas OpenZeppelin para seguranca:
 - Ownable: restringe funcoes criticas ao administrador do contrato.
 - Pausable: permite pausar operacoes em caso de emergencia.
 */
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.2/contracts/access/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.2/contracts/utils/Pausable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Pausable.sol";
 
 /*
 Conceitos importantes:
@@ -24,7 +24,7 @@ contract RegistroDeUsuariosComRecompensa is Ownable, Pausable {
         string nome;
         bool registrado;
         uint64 dataRegistro;
-        uint32 totalRecompensasRecebidas;
+        uint256 totalRecompensasRecebidas;
     }
 
     // Mapeamento de carteira para dados do usuario
@@ -45,6 +45,8 @@ contract RegistroDeUsuariosComRecompensa is Ownable, Pausable {
         uint256 novoSaldo,
         uint256 poolRestante
     );
+    event RecompensaPadraoAtualizada(uint256 valorAnterior, uint256 novoValor);
+    event PoolRecompensasAtualizado(uint256 valorAdicionado, uint256 novoPool);
 
     constructor(uint256 recompensaPadrao_, uint256 poolInicial_) Ownable(msg.sender) {
         require(recompensaPadrao_ > 0, "Recompensa invalida");
@@ -112,11 +114,19 @@ contract RegistroDeUsuariosComRecompensa is Ownable, Pausable {
 
     function ajustarRecompensaPadrao(uint256 novoValor) external onlyOwner {
         require(novoValor > 0, "Valor invalido");
+        uint256 valorAnterior = recompensaPadrao;
         recompensaPadrao = novoValor;
+        emit RecompensaPadraoAtualizada(valorAnterior, novoValor);
     }
 
     function adicionarAoPool(uint256 valor) external onlyOwner {
         require(valor > 0, "Valor invalido");
         poolRecompensas += valor;
+        emit PoolRecompensasAtualizado(valor, poolRecompensas);
+    }
+
+    // Evita perda acidental de controles administrativos do contrato.
+    function renounceOwnership() public override onlyOwner {
+        revert("Renuncia de ownership desabilitada");
     }
 }
